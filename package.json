@@ -1,0 +1,67 @@
+{
+  "name": "interview-copilot",
+  "productName": "InterviewCopilot",
+  "version": "0.2.0",
+  "description": "Interview preparation assistant",
+  "main": "electron/main.js",
+  "scripts": {
+    "build:frontend": "cd frontend && npm run build",
+    "start": "npm run build:frontend && electron .",
+    "dev": "ELECTRON_DEV_URL=http://localhost:5173 electron .",
+    "dev:debug": "ELECTRON_DEV_URL=http://localhost:5173 OPEN_DEVTOOLS=1 electron .",
+    "package": "npm run build:frontend && electron-builder --mac --dir -c.extraMetadata.backendDir=\"$PWD/backend\" && codesign --force --deep --sign - --entitlements /tmp/entitlements.plist dist/mac-arm64/InterviewCopilot.app"
+  },
+  "build": {
+    "appId": "com.babs.interviewcopilot",
+    "productName": "InterviewCopilot",
+    "files": [
+      "electron/main.js",
+      "electron/preload.js",
+      "electron/ipc/**/*",
+      "frontend/dist/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": "dir",
+      "hardenedRuntime": false,
+      "extraResources": [
+        {
+          "from": "backend/app",
+          "to": "backend/app"
+        },
+        {
+          "from": "backend/.venv",
+          "to": "backend/.venv"
+        },
+        {
+          "from": "backend/.env",
+          "to": "backend/.env"
+        },
+        {
+          "from": "backend/requirements.txt",
+          "to": "backend/requirements.txt"
+        }
+      ],
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "InterviewCopilot needs microphone access to transcribe your voice during interviews.",
+        "NSAudioCaptureUsageDescription": "InterviewCopilot needs audio access to transcribe call audio during interviews.",
+        "NSScreenRecordingUsageDescription": "InterviewCopilot needs screen recording permission to capture screenshots of coding problems.",
+        "NSCameraUseContinuityCameraDeviceType": true,
+        "NSWindowsSupportsAutomaticGraphicsSwitching": true,
+        "LSUIElement": false,
+        "NSSupportsAutomaticTermination": false,
+        "NSSupportsSuddenTermination": false
+      }
+    }
+  },
+  "devDependencies": {
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0",
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.14.0"
+  }
+}
+

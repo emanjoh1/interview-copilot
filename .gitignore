@@ -1,0 +1,31 @@
+# Python
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Build output — do not commit, run npm run package locally
+frontend/dist/
+dist/
+frontend/tsconfig.tsbuildinfo
+
+# Secrets — copy backend/.env.example to backend/.env and fill in
+backend/.env
+*.env.local
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Debug artefacts
+electron/main.js.bak
+frontend/src/App.tsx.bak
